@@ -1,4 +1,4 @@
-# Exercise on Functional PCA 
+# Exercise on Functional PCA
 # Author: Michele Gubian
 # Last revision: May 18th 2018
 
@@ -15,7 +15,7 @@ n_curves = 50
 time_list = list()
 y_list = list()
 duration = c()
-z_list = list() 
+z_list = list()
 
 
 for (i in 1:n_curves) {
@@ -32,7 +32,7 @@ T_min = 0.2; T_max = 0.3
 Y_min = 1; Y_max = 2
 
 
-# exploratory plots 
+# exploratory plots
 op = par(ask=T,mfrow=c(2,1))
 
 for (i in 1:n_curves) {
@@ -46,7 +46,7 @@ par(op)
 # create common basis
 
 # obligatory linear time normalisation
-mean_dur = mean(duration) 
+mean_dur = mean(duration)
 
 norm_range <- c(0,mean_dur)
 n_knots = 8 # try many
@@ -66,7 +66,7 @@ curve_fd = smooth.basis(t_norm,y_list[[i]],fdPar)$fd
 # plot
 plot(t_norm,y_list[[i]],col = 'red', ylim=c(0,Y_max),las=1,xlab='lin. norm. time',ylab='y',main=paste('curve',i,', n_knots =',n_knots,'lambda =',lambda))
 lines(curve_fd,lwd=2)
-# repeat with z 
+# repeat with z
 
 # parameters set to:
 n_knots = 8
@@ -90,7 +90,7 @@ par(op)
 
 lambda_pca    <- lambda
 pcafdPar  <- fdPar(basis, 2, lambda_pca) # here Lfdobj = 2 since we don't need derivatives of PC curves.
-yz_pcafd <- pca.fd(yz_fd, nharm=2, pcafdPar) # compute first 2 PCs
+yz_pcafd <- pca.fd(yz_fd, nharm=2, pcafdPar) # compute first 2 PCs, harmonics is "component" in PCA terminology
 
 # plot PC curves
 op <- par(mfrow=c(2,2))
@@ -109,13 +109,13 @@ plot.pca.fd(yz_pcafd,harm=1,pointplot=T,cycle=T)
 
 
 # plot PC scores s1 and s2
-xyplot	(yz_pcafd$scores[,2] ~  yz_pcafd$scores[,1]  , cex=1.5, 
+xyplot	(yz_pcafd$scores[,2] ~  yz_pcafd$scores[,1]  , cex=1.5,
 	xlab = list(label=expression(s[1]),cex=2), ylab= list(label=expression(s[2]),cex=2)
 	)
 
 # FPCA-based curve reconstruction
 
-# select a curve, use PCs and PC scores 
+# select a curve, use PCs and PC scores
 i=3
 s1 = yz_pcafd$scores[i,1]
 t_norm = (time_list[[i]] / duration[i]) * mean_dur

@@ -1,4 +1,4 @@
-# Exercise on Functional PCA 
+# Exercise on Functional PCA
 # Author: Michele Gubian
 # Last revision: May 17th 2018
 
@@ -37,7 +37,7 @@ for (i in 1:n_curves) {
 i = 1 # random
 plot(time_list[[i]], y_list[[i]], las = 1)
 
-Y_max <- 1
+Y_max <- 2
 X_max <- max(duration)
 plot(c(0,X_max), c(-Y_max,Y_max), type='n')
 for (i in sample(n_curves, 10)) { # 1:n_curves
@@ -49,10 +49,10 @@ for (i in sample(n_curves, 10)) { # 1:n_curves
 # create common basis
 
 # obligatory linear time normalisation
-mean_dur = mean(duration) 
+mean_dur = mean(duration)
 norm_range <- c(0,mean_dur)
 n_knots = 8 # try many
-lambda = 1e-8 # try many
+lambda = 1e-8 # try many; smoothness penalty
 
 #knots <- seq(0,mean_dur,length.out = n_knots)
 Lfdobj <- 3 # 2 + order of derivative expected to be used. We might need velocity, thus order = 1
@@ -92,7 +92,7 @@ plot(y_fd[sample(n_curves, 10)])
 
   # FPCA
 
-lambda_pca    <- lambda 
+lambda_pca    <- lambda
 pcafdPar  <- fdPar(basis, 2, lambda_pca) # here Lfdobj = 2 since we don't need derivatives of PC curves.
 y_pcafd <- pca.fd(y_fd, nharm=2, pcafdPar) # compute first 2 PCs
 
@@ -104,15 +104,15 @@ par(op)
 
 
 # plot PC scores s1 and s2
-xyplot	(y_pcafd$scores[,2] ~  y_pcafd$scores[,1]  ,cex=1.5, 
+xyplot	(y_pcafd$scores[,2] ~  y_pcafd$scores[,1]  ,cex=1.5,
  	xlab = list(label=expression(s[1]),cex=2), ylab= list(label=expression(s[2]),cex=2)
 )
 
 
 # FPCA-based curve reconstruction
 
-# select a curve, use PCs and PC scores 
-i = 1
+# select a curve, use PCs and PC scores
+i = 10
 s1 = y_pcafd$scores[i,1]
 s2 = y_pcafd$scores[i,2]
 
@@ -127,6 +127,6 @@ lines(y_pcafd$meanfd,col='blue',lwd=2) # mean curve
 lines(y_pcafd$meanfd+s1*y_pcafd$harmonics[1],col='green',lwd=2) # mean + s1 * PC1
 # lines(y_pcafd$meanfd+s1*y_pcafd$harmonics[1]+s2*y_pcafd$harmonics[2],col='violet',lwd=2) # mean + s1 * PC1 + s2 * PC2
 
-		
+
 
 
